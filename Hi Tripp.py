@@ -1,3 +1,5 @@
+# Testing GitHub
+
 # This is your first coding assignment for Computational BME.
 # As discussed in class, feel free to use AI tools to help you complete this assignment, but remember to cite them.
 # I encourage you to try the problems yourself first and only use AI tools when you are stuck to benefit your learning. 
