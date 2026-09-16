@@ -14,3 +14,27 @@ print(dog3.age)
 print(dog2.get_age())
 
 print(Dog.sum_ages())
+
+with open('dog data set.csv', newline="") as f:
+        reader = csv.reader(f)
+        headers = next(reader) # Get the first row
+        for h in headers:
+            print(h)
+
+
+# Dog.instantiate_from_csv("dog data set.csv")
+
+# print(Dog.get_dog("Pug"))
+
+# Dog.all_dogs.sort(key=Dog.get_age, reverse=False)
+
+# for dog in Dog.all_dogs:
+    #print(dog)
+
+working_dogs = range(len(Dog.filter(Dog.all_dogs, breedgroup = "Working")))
+
+print(f'Number of Working Dog breeds = {len(working_dogs)}')
+
+toy_dogs = range(len(Dog.filter(Dog.all_dogs, breedgroup = "Toy")))
+
+print(f'Number of Toy Dog breeds = {len(toy_dogs)}')
