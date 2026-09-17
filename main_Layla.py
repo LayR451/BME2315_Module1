@@ -65,6 +65,9 @@ x_Female_bar = statistics.mean(amyloid_Female)
 amyloid_Male_stdev = statistics.stdev(amyloid_Male)
 amyloid_Female_stdev = statistics.stdev(amyloid_Female)
 
+t_stat, p_val = stats.ttest_ind(amyloid_Female, amyloid_Male)
+print(f'tstat = {t_stat}, p_val = {p_val}')
+
 # Label creation!
 print(f'x_Male_bar = {x_Male_bar}, amyloid_Male_stdev = {amyloid_Male_stdev}')
 print(f'x_Female_bar = {x_Female_bar}, amyloid_Female_stdev = {amyloid_Female_stdev}')
