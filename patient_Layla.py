@@ -50,13 +50,55 @@ class patient:
             print(patient)
 
 # This method works for Part 6. For context, in this project, Tripp and I are interested in highest level education related to age of onset, and how the length that one has the disease (death - onset) related to amount of amyloid plague.
-# the **criteria method means you can plug in multiple attributes and their values
+# This is a overall similar model to the dog one, but I defined more labels for upper and lower of the numerical ranges I'm interested in
     @classmethod
-    def many_attributes_patients(cls, **criteria):
-        for patient in cls.all_patients:
-            if all(getattr(patient, attribute) == value
-                for attribute, value in criteria.items()):
-                print(patient)
+    def filter(cls, sex="any", education="any", amyloid_plaque_min="any", amyloid_plaque_max="any",
+            onset_age_min="any", onset_age_max="any", death_age_min="any", death_age_max="any"):
+        
+        all_patients = cls.all_patients
+        remove_list = []
+
+        # These are the string examples
+        attr_list = (sex, education)
+        attr_name = ("sex", "education")
+
+        for attr in range(len(attr_list)):
+            if attr_list[attr] != "any":
+                for patient in all_patients:
+                    if getattr(patient, attr_name[attr]) != attr_list[attr]:
+                        remove_list.append(patient)
+                all_patients = [patient for patient in all_patients if patient not in remove_list]
+                remove_list.clear()
+
+        # These are numerical, I had to set them for a minimum and maximum because I didn't know how to range them otherwise. 
+        min_list = (amyloid_plaque_min, onset_age_min, death_age_min)
+        min_name = ("amyloid_plaque", "onset_age", "death_age")
+
+        for attr in range(len(min_list)):
+            if min_list[attr] != "any":
+                for patient in all_patients:
+                    value = getattr(patient, min_name[attr])
+                    if value == "" or value is None or float(value) < min_list[attr]:
+                        remove_list.append(patient)
+                all_patients = [patient for patient in all_patients if patient not in remove_list]
+                remove_list.clear()
+
+        # Maximum section, same as minimum
+        max_list = (amyloid_plaque_max, onset_age_max, death_age_max)
+        max_name = ("amyloid_plaque", "onset_age", "death_age")
+
+        for attr in range(len(max_list)):
+            if max_list[attr] != "any":
+                for patient in all_patients:
+                    value = getattr(patient, max_name[attr])
+                    if value == "" or value is None or float(value) > max_list[attr]:
+                        remove_list.append(patient)
+                all_patients = [patient for patient in all_patients if patient not in remove_list]
+                remove_list.clear()
+
+        for person in all_patients:
+            print(person)
+        return all_patients
 
 # This is copied directly from the dog project, and is what allows me to access the whole patient dataset
     @classmethod 
