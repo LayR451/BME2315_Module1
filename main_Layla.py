@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from scipy import stats
 import numpy as np
 import statistics
+from sklearn.linear_model import LinearRegression
 
 
 # reading out of the csv file
@@ -83,6 +84,7 @@ plt.bar(sex_cols, mean_sex, yerr=yerr, capsize=10, color=["blue", "orange"])
 plt.title("Average Amyloid Plaque Levels by Sex")
 plt.xlabel("Sex")
 plt.ylabel("Average Amyloid Plaque (pg/µg)")
+plt.text(1.5, 380, f"T-test value:{t_stat}")
 plt.show()
 
 
@@ -99,12 +101,24 @@ for p in patient.all_patients:
 for p in patient.all_patients:
     amyloid_plaque_levels.append(p.amyloid_plaque)
 
+# Convert the data to numeric NumPy arrays
+x_values = np.array(disease_length, dtype=float)
+y_values = np.array(amyloid_plaque_levels, dtype=float)
 
-X = [disease_length]        # Independent variable goes on x
-y = [amyloid_plaque_levels] # Dependent variable goes on y 
+# Keep only patients with valid values for both variables
+valid_data = np.isfinite(x_values) & np.isfinite(y_values)
+x = x_values[valid_data].reshape(-1, 1)
+y = y_values[valid_data]
+
+# Make a linear regression
+model = LinearRegression()
+model.fit(x, y)
+r2 = model.score(x, y)
+print(r2)
 
 # Plot and show
-plt.scatter(X, y, color='blue')
+plt.scatter(x, y, color='blue')
+plt.plot(x, model.predict(x), color='red')
 plt.xlabel('Length of Disease (years)')
 plt.ylabel('Amyloid Plaque (pg/µg)')
 plt.title('Scatter Plot of Disease Length vs Amyloid Plaque')
