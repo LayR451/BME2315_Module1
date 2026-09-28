@@ -3,16 +3,40 @@
 # To begin, I'm calling the patient file in so I can access those functions
 from patient_Layla import *
 
+# reading out of the csv file
+patient.instantiate_from_csv("Metadata and Protein Data for Module 1.csv")
+
+patient.all_patients = [p for p in patient.all_patients if p.donor != "H20.33.018"]
+
 # these other functions will help with the math and plotting skills needed from graphs
 import matplotlib.pyplot as plt
 from scipy import stats
 import numpy as np
 import statistics
 from sklearn.linear_model import LinearRegression
+import pandas as pd
 
 
-# reading out of the csv file
-patient.instantiate_from_csv("Metadata and Protein Data for Module 1.csv")
+# First check of outlier analysis! 
+df = pd.read_csv("Metadata and Protein Data for Module 1.csv")
+col = "ABeta42 pg/ug"       # protein concentration column to check
+id_col = "Donor ID"        # column that identifies each patient
+df = df.dropna(subset=[col])
+
+# IQR: flag anything beyond 1.5 * IQR from the quartiles
+q1, q3 = df[col].quantile([0.25, 0.75])
+iqr = q3 - q1
+low, high = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+df["outlier"] = (df[col] < low) | (df[col] > high)
+
+# z-score 
+df["z"] = (df[col] - df[col].mean()) / df[col].std()
+
+print(f"Normal range: {low:.2f} to {high:.2f}")
+print(df.loc[df["outlier"], [id_col, col, "z"]])
+
+df.boxplot(column=col)
+plt.show()
 
 
 #Now, I will create patient objects:
