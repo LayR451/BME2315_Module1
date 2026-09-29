@@ -1,7 +1,7 @@
 '''
 Sources used to complete this assignment include pythontutorial.net for basic syntax assistance, and ChatGPT 5.6 Luna for
 additional understanding with syntax, specifically for graph creation. ChatGPT 5.6 Luna also assisted in the troubleshoot process when graphs were not displaying properly and to
-help with graph customization including the title, xlabel, and ylabel. I used the matplotlib online wepage to understand the library and its functions. 
+help with graph customization including the title, xlabel, and ylabel. I used the matplotlib online webpaage to understand the library and its functions. 
 The internal VS code AI assistant was used to assist with fixing errors associated with code indentation. 
 
 For this assignment I decided to look at the relationship between years of education and age of onset of cognitive symptoms. I also looked at the relationship between highest 
@@ -30,6 +30,12 @@ from patient import Patient
 csv_path = Path(__file__).resolve().parent / "Metadata and Protein Data for Module 1.csv"
 Patient.instantiate_from_csv(str(csv_path))
 
+# Remove identified outlier patient
+Patient.all_patients = [
+    p for p in Patient.all_patients
+    if p.donor_id != "H20.33.018"
+]
+
 # Check how many patients were created
 print(f"Number of patients = {len(Patient.all_patients)}")
 
@@ -55,13 +61,13 @@ for patient in female_dementia_patients:
 print(f"Number of female patients with dementia = {len(female_dementia_patients)}")
 
 # Calculate disease duration
-# Disease duration = age at death - age at dementia diagnosis
+# Disease duration = age at death - age of symptom onset
 
 disease_duration = []
 
 for patient in Patient.all_patients:
-    if patient.age_dementia_diagnosis is not None:
-        duration = patient.age_at_death - patient.age_dementia_diagnosis
+    if patient.age_onset is not None:
+        duration = patient.age_at_death - patient.age_onset
         disease_duration.append(duration)
 
 # Print disease duration information
@@ -83,8 +89,8 @@ graduate_duration = []
 professional_duration = []
 
 for patient in Patient.all_patients:
-    if patient.age_dementia_diagnosis is not None:
-        duration = patient.age_at_death - patient.age_dementia_diagnosis
+    if patient.age_onset is not None:
+        duration = patient.age_at_death - patient.age_onset
 
         if patient.highest_education == "High School":
             high_school_duration.append(duration)
@@ -207,6 +213,12 @@ X = np.linspace(
     100
 ).reshape(-1, 1)
 
+# Calculate p-value
+slope, intercept, r_value, p_value, standard_error = stats.linregress(
+    years_education,
+    age_onset
+)
+
 # Make scatter plot
 plt.scatter(
     years_education,
@@ -238,7 +250,4 @@ plt.show()
 # make r squared value
 r_squared = model.score(np.array(years_education).reshape(-1, 1), np.array(age_onset).reshape(-1, 1))
 print(f"R-squared value: {r_squared:.2f}")
-
-# run one-way ANOVA
-f_stat, p_value = stats.f_oneway(age_onset, years_education) 
-print(f"One-way ANOVA results: F-statistic = {f_stat:.2f}, p-value = {p_value:.2f}") 
+print(f"P-value: {p_value:.3f}")
