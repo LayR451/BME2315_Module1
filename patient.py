@@ -41,8 +41,8 @@ class Patient:  # create a class called Patient
             f"ABeta42 = {self.abeta42})"
         )
 
-    def get_age_at_death(self):
-        return self.age_at_death
+    def amyloid_plaque(self): # 42 is responsilbe for the plaque, that's why I used it here
+        return self.abeta42
 
     @classmethod # create a class method to get patient data from a CSV file
     def instantiate_from_csv(cls, filename: str):

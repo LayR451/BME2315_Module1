@@ -140,6 +140,9 @@ model.fit(x, y)
 r2 = model.score(x, y)
 print(r2)
 
+r, p_val = stats.pearsonr(x.ravel(), y)
+print(f'r = {r}, p_val = {p_val}')
+
 # Plot and show
 plt.scatter(x, y, color='blue')
 plt.plot(x, model.predict(x), color='red')
