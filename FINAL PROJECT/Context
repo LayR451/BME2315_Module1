@@ -1,1 +1,17 @@
+In this folder, you will see:
 
+Our final Jupyter Notebook --> This is the primary submission for this project
+
+---------------
+
+The following files are all present for context, or because the Juypter notebook calls on them (ie, calling on the patient class):
+
+Metadata and Protein Data for Module 1 CSV File --> This is the data set used
+
+main_Layla.py and tripp.mainproject.py --> our respective individual files we used for the previous homework submissions, and where a lot of our code came from once combined. These are helpful is seeing how the work was done, iterated through, and how we worked together.
+
+patient_Layla.py --> was a different class definition than the one we used, left here for reference if desired to see the process by which we worked. 
+
+patient.py --> This is our main file where the class Patient was defined, and this is the folder that our main and Jupyter call to
+
+main_patientdata.py --> This is the bulk of our analysis, combined into one main file. 
