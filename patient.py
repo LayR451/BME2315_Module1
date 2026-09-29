@@ -47,6 +47,7 @@ class Patient:  # create a class called Patient
     @classmethod # create a class method to get patient data from a CSV file
     def instantiate_from_csv(cls, filename: str):
         with open(filename, encoding="utf8", newline="") as f:
+            cls.all_patients = []   # clear out any previously loaded patients
             reader = csv.DictReader(f)
             rows_of_patients = list(reader)
 
