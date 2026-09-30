@@ -250,26 +250,4 @@ plt.show()
 # make r squared value
 r_squared = model.score(np.array(years_education).reshape(-1, 1), np.array(age_onset).reshape(-1, 1))
 print(f"R-squared value: {r_squared:.2f}")
-<<<<<<< Updated upstream:FINAL PROJECT/main_patientdata.py
 print(f"P-value: {p_value:.3f}")
-=======
-print(f"P-value: {p_value:.3f}")
-
-
-# Statistical analysis of the scatter plot
-# Test whether there is a statistically significant linear relationship between years of education and age of onset of cognitive symptoms
-
-slope, intercept, r_value, p_value, standard_error = stats.linregress(
-    years_education,
-    age_onset
-)
-
-print("\nStatistical analysis of years of education vs. age of onset:")
-print(f"R-squared value = {r_squared:.2f}")
-print(f"P-value = {p_value:.3f}")
-
-if p_value < 0.05:
-    print("The relationship is statistically significant.")
-else:
-    print("The relationship is not statistically significant.")
->>>>>>> Stashed changes:main_patientdata.py
